@@ -6,7 +6,7 @@ pipeline {
 
         stage ("Git Clone") {
             steps {
-                git clone: "https://github.com/devopsof/major_project_1.git", branch: "main"
+                git url: "https://github.com/devopsof/major_project_1.git", branch: "main"
             }
         }
 
