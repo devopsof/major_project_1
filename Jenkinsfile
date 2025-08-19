@@ -21,7 +21,7 @@ pipeline {
         stage ("Test Run") {
             steps {
                 sh '''
-                docker run -d --name flask-test flask-app:test
+                docker run -d --name flask-test flask-app
                 sleep 5
                 docker exec flask-test curl -f http://localhost:5000 || exit 1
                 docker rm -f flask-test
