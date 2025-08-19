@@ -18,16 +18,18 @@ pipeline {
             }
         }
 
-        stage ("Test Run") {
+        stage('Test Run') {
             steps {
                 sh '''
-                docker run -d --name flask-test flask-app
+                docker rm -f flask-test || true
+                docker run -d --name flask-test -p 5000:5000 flask-app
                 sleep 5
                 curl -f http://localhost:5000 || exit 1
                 docker rm -f flask-test
                 '''
             }
         }
+
 
         stage ("Push to Dockerhub") {
             steps {
