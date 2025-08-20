@@ -5,7 +5,7 @@ services:
   flask-app:
 
     build: .
-    comtainer_name: flask-app
+    container_name: flask-app
     ports:
       - "5000:5000"
     restart: always
