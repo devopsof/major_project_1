@@ -47,6 +47,7 @@ pipeline {
                 )]) {
                     sh '''
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker tag flask-app:latest irady/flask-app:latest
                         docker push irady/flask-app:latest
                         docker logout
                     '''
