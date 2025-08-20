@@ -2,6 +2,13 @@ pipeline {
 
     agent {label "First"}
 
+    environment {
+
+        IMAGE_NAME = "irady/flask-app"
+        IMAGE_TAG = "latest"
+
+    }
+
     stages {
 
         stage ("Git Clone") {
@@ -33,9 +40,16 @@ pipeline {
 
         stage ("Push to Dockerhub") {
             steps {
-                sh'''
-                docker push irady/flask-app:latest
-                '''
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-cred',
+                usernameVariable: 'DOCKER_USER',
+                passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh'''
+                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                    docker push ${IMAGE_NAME}:${IMAGE_TAG}
+                    docker logout
+                    '''
+                }
             }
         }
 
